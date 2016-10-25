@@ -1,4 +1,4 @@
-# Limbo - a customized version
+# Limbo - A customized version
 
 ### A [Slack](https://slack.com/) chatbot
 
