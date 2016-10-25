@@ -1,4 +1,5 @@
-# Limbo
+# Limbo - a customized version
+
 ### A [Slack](https://slack.com/) chatbot
 
 ![](https://travis-ci.org/llimllib/limbo.svg?branch=master)
