@@ -10,10 +10,11 @@ import requests
 
 def bing(q):
     query = quote(q)
-    url = "https://www.bing.com/search?q={0}".format(query)
+    url = "http://www.bing.com/images/search?q={}&qft=+filterui:color2-bw+filterui:imagesize-large&FORM=R5IR3".format(query)
     soup = BeautifulSoup(requests.get(url).text, "html5lib")
-
-    answer = soup.findAll("h3", attrs={"class": "r"})
+    
+    bimg = re.compile('.*mm.bing.net.*')
+    answer = soup.findAll("img", attrs={"src": "bimg"})
     if not answer:
         return ":crying_cat_face: Sorry, bing doesn't have an answer for you :crying_cat_face:"
 
