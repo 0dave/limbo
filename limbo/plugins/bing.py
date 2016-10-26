@@ -8,6 +8,11 @@ import re
 import requests
 from random import shuffle
 
+
+def unescape(url):
+    # for unclear reasons, bing replaces url escapes with \x escapes
+    return url.replace(r"\x", "%")
+
 def bing(query):
     query = quote(query)
     
@@ -18,7 +23,7 @@ def bing(query):
 
     result = requests.get(url, headers={"User-agent": useragent}).text
 
-    bings = list(map(url, re.findall(r"var u='(.*?)'", result)))
+    bings = list(map(unescape, re.findall(r"var u='(.*?)'", result)))
     shuffle(bings)
 
     if bings:
