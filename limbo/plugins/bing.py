@@ -1,4 +1,4 @@
-"""!search <query> will return the top bing result for that query (!google is an alias)"""
+"""!search <query> will return the top bing result for that query (!bing is an alias)"""
 from bs4 import BeautifulSoup
 import re
 try:
@@ -21,7 +21,7 @@ def bing(q):
         return unquote(re.findall(r"q=(.*?)&", str(answer[0]))[0])
     except IndexError:
         # in this case there is a first answer without a link, which is a
-        # google response! Let's grab it and display it to the user.
+        # bing response! Let's grab it and display it to the user.
         return ' '.join(answer[0].stripped_strings)
 
 def on_message(msg, server):
