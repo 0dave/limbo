@@ -10,7 +10,7 @@ import requests
 
 def bing(q):
     query = quote(q)
-    url = "https://encrypted.bing.com/search?q={0}".format(query)
+    url = "https://www.bing.com/search?q={0}".format(query)
     soup = BeautifulSoup(requests.get(url).text, "html5lib")
 
     answer = soup.findAll("h3", attrs={"class": "r"})
