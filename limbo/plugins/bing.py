@@ -32,7 +32,7 @@ def gif(searchterm):
 
 def on_message(msg, server):
     text = msg.get("text", "")
-    match = re.findall(r"!ngif (.*)", text)
+    match = re.findall(r"!bing (.*)", text)
     if not match:
         return
 
