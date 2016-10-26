@@ -1,28 +1,30 @@
-"""!search <query> will return the top bing result for that query (!bing is an alias)"""
-from bs4 import BeautifulSoup
-import re
+"""!search <query> will return the randon bing image result for that query (!bing is an alias)"""
+
 try:
-    from urllib import quote, unquote
+    from urllib import quote
 except ImportError:
-    from urllib.request import quote, unquote
+    from urllib.request import quote
+import re
 import requests
+from random import shuffle
 
+def bing(query):
+    query = quote(query)
+    
+    url = "https://www.bing.com/images/search?q={}&FORM=HDRSC2".format(query)
+    
+    # this is an old iphone user agent. Seems to make bing return good results.
+    useragent = "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Versio  n/4.0.5 Mobile/8A293 Safari/6531.22.7"
 
-def bing(q):
-    query = quote(q)
-    url = "https://www.bing.com/search?q={0}".format(query)
-    soup = BeautifulSoup(requests.get(url).text, "html5lib")
+    result = requests.get(url, headers={"User-agent": useragent}).text
 
-    answer = soup.findAll("a", attrs={"class": "image"})
-    if not answer:
-        return ":crying_cat_face: Sorry, bing doesn't have an answer for you :crying_cat_face:"
+    bings = list(map(url, re.findall(r"var u='(.*?)'", result)))
+    shuffle(bings)
 
-    try:
-        return unquote(re.findall(r"q=(.*?)&", str(answer[0]))[0])
-    except IndexError:
-        # in this case there is a first answer without a link, which is a
-        # bing response! Let's grab it and display it to the user.
-        return ' '.join(answer[0].stripped_strings)
+    if bings:
+        return bings[0]
+    else:
+        return ""
 
 def on_message(msg, server):
     text = msg.get("text", "")
@@ -30,4 +32,6 @@ def on_message(msg, server):
     if not match:
         return
 
-    return bing(match[0])
+    
+    query = match[0]
+    return bing(query.encode("utf8"))
