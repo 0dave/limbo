@@ -24,7 +24,7 @@ def bimage(searchterm, unsafe=False):
     result = requests.get(searchurl, headers={"User-agent": useragent}).text
 
     bimages = list(map(unescape, re.findall(r"var u='(.*?)'", result)))
-    shuffle(images)
+    shuffle(bimages)
 
     if bimages:
         return bimages[0]
